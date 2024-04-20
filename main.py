@@ -22,12 +22,15 @@ class LoginWindow:
         self.login_button.pack(pady = 10)
 
     def check_login(self):
-        if len(self.password_entry.get()) < 8:
+        username = self.username_entry.get().strip()  # Removendo espaços em branco no início e no final
+        password = self.password_entry.get()
+
+        if len(password) < 8:
             messagebox.showerror('Falha no login', 'A senha deve ter pelo menos 8 caracteres')
-        elif self.username_entry.get() == 'admin' and self.password_entry.get() == 'password':
+        elif username == 'admin' and password == 'password':
             messagebox.showinfo('Login realizado com sucesso', 'Seja bem-vindo Admin!')
-        elif self.username_entry.get() != 'admin' and self.password_entry.get() != 'password':
-            messagebox.showinfo('Login realizado com sucesso', f'Seja bem-vindo {self.username_entry.get()}!')
+        elif username != 'admin' and password != 'password':
+            messagebox.showinfo('Login realizado com sucesso', f'Seja bem-vindo {username}!')
         else:
             messagebox.showerror('Falha no login', 'Usuário ou senha inválido(s)')
 
