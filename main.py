@@ -1,29 +1,36 @@
 import customtkinter as ctk
 from tkinter import messagebox
 
-def check_login():
-    if username_entry.get() == 'admin' and password_entry.get() == 'password':
-        messagebox.showinfo('Login realizado com sucesso', 'Seja bem-vindo Admin!')
-    elif username_entry.get() != 'admin' and password_entry.get() != 'password':
-        messagebox.showinfo('Login realizado com sucesso', f'Seja bem-vindo {username_entry.get()}!')
-    else:
-        messagebox.showerror('Falha no login', 'Usuário ou senha inválido(s)')
+class LoginWindow:
+    def __init__(self, root):
+        self.root = root
+        self.root.geometry('300x200')  # Definindo um tamanho mínimo para a janela
+
+        self.username_label = ctk.CTkLabel(self.root, text = 'Nome de usuário')
+        self.username_label.pack(pady = (10, 0))
+
+        self.username_entry = ctk.CTkEntry(self.root)
+        self.username_entry.pack(pady = (0, 10))
+
+        self.password_label = ctk.CTkLabel(self.root, text = 'Senha')
+        self.password_label.pack(pady = (10, 0))
+
+        self.password_entry = ctk.CTkEntry(self.root, show = '*')
+        self.password_entry.pack(pady = (0, 10))
+
+        self.login_button = ctk.CTkButton(self.root, text = 'Login', command = self.check_login)
+        self.login_button.pack(pady = 10)
+
+    def check_login(self):
+        if len(self.password_entry.get()) < 8:
+            messagebox.showerror('Falha no login', 'A senha deve ter pelo menos 8 caracteres')
+        elif self.username_entry.get() == 'admin' and self.password_entry.get() == 'password':
+            messagebox.showinfo('Login realizado com sucesso', 'Seja bem-vindo Admin!')
+        elif self.username_entry.get() != 'admin' and self.password_entry.get() != 'password':
+            messagebox.showinfo('Login realizado com sucesso', f'Seja bem-vindo {self.username_entry.get()}!')
+        else:
+            messagebox.showerror('Falha no login', 'Usuário ou senha inválido(s)')
 
 root = ctk.CTk()
-
-username_label = ctk.CTkLabel(root, text = 'Nome de usuário')
-username_label.pack(pady = (10, 0))
-
-username_entry = ctk.CTkEntry(root)
-username_entry.pack(pady = (0, 10))
-
-password_label = ctk.CTkLabel(root, text = 'Senha')
-password_label.pack(pady = (10, 0))
-
-password_entry = ctk.CTkEntry(root, show = '*')
-password_entry.pack(pady = (0, 10))
-
-login_button = ctk.CTkButton(root, text = 'Login', command = check_login)
-login_button.pack(pady = 10)
-
+app = LoginWindow(root)
 root.mainloop()
